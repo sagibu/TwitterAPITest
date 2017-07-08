@@ -16,4 +16,11 @@ class FrequentWordCalculator:
 
     def monitor_topic(self, topic, delay):
         self.query_topic(topic, 'recent')
-        threading.Timer(delay, self.monitor_topic, [topic]).start()
+        threading.Timer(delay, self.monitor_topic, [topic, delay]).start()
+
+    def most_frequent_words(self, topic):
+        total_words_count = self.db_handler.total_number_of_rows(topic)
+        return list(map(lambda word: {"Word": word[0],
+                                      "Count": word[1],
+                                      "Precentage": word[1] / total_words_count},
+                        self.db_handler.most_frequent_words(topic)))

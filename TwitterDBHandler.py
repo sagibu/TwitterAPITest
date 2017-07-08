@@ -64,3 +64,40 @@ class TwitterDBHandler:
             print(error)
             self.conn.rollback()
             return False
+
+    def most_frequent_words(self, topic):
+        try:
+            cur = self.conn.cursor()
+            sql = """
+            SELECT word, ct FROM (
+                SELECT unnest(string_to_array(tweet_text, ' ')) AS word, count(*) AS ct
+                FROM   public.{}_tweets
+                GROUP  BY 1
+                ORDER  BY 2 DESC
+                ) words
+                WHERE word ~ '^[\w,@,#]+$'
+                LIMIT 50
+            """.format(topic)
+            cur.execute(sql)
+            rows = cur.fetchall()
+            cur.close()
+            return rows
+
+        except (Exception, psycopg2.DatabaseError) as error:
+            self.conn.rollback()
+            print(error)
+
+    def total_number_of_rows(self, topic):
+        try:
+            cur = self.conn.cursor()
+            sql = """
+            SELECT COUNT(*) FROM {}_tweets
+            """.format(topic)
+            cur.execute(sql)
+            result = cur.fetchone()
+            cur.close()
+            return result[0]
+
+        except (Exception, psycopg2.DatabaseError) as error:
+            self.conn.rollback()
+            print(error)
