@@ -1,0 +1,15 @@
+{
+  "TWITTER": {
+    "APP_KEY": "YOUR APP KEY",
+    "APP_SECRET": "YOUR APP SECRET",
+    "ACCESS_TOKEN": "YOUR ACCESS TOKEN"
+  },
+  "DB": {
+    "DBNAME": "YOUR DB NAME",
+    "USER": "YOUR DB USER",
+    "HOST": "YOUR DB HOST",
+    "PORT": "YOUR DB PORT",
+    "PASSWORD": "YOUR DB ADMIN PASSWORD"
+  }
+
+}
