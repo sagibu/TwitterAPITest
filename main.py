@@ -1,18 +1,15 @@
-from twython import Twython
-import json
+from FrequentWordCalculator import FrequentWordCalculator
+import time
+
 
 def main():
-    with open('settings.json') as settings_json:
-        settings = json.load(settings_json)
-    twitter = Twython(settings['APP_KEY'], settings['APP_SECRET'], oauth_version=2, access_token=settings['ACCESS_TOKEN'])
+    frequent_words = FrequentWordCalculator('settings.json')
+    frequent_words.monitor_topic("dota", 1800.0)
+    frequent_words.monitor_topic("NBA", 1800.0)
+    frequent_words.monitor_topic("hearthstone", 1800.0)
 
-    result = twitter.search(q='NBA', result_type='recent', count=100)
-    x = 0
-    for t in result['statuses']:
-        x += 1
-        print(t['text'])
-        print("===================================END==============================")
+    while True:
+        time.sleep(100)
 
-    print(x)
 if __name__ == "__main__":
     main()
